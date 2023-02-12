@@ -22,6 +22,10 @@ func _physics_process(_delta):
 	velocity = velocity + get_input()*speed
 	velocity = velocity.normalized() * clamp(velocity.length(), 0, max_speed)
 	velocity = move_and_slide(velocity, Vector2.ZERO)
+	if Input.is_action_pressed("forward"):
+		pass
+	else:
+		velocity = velocity*0.95
 	position.x = wrapf(position.x, 0, Global.VP.x)
 	position.y = wrapf(position.y, 0, Global.VP.y)
 
@@ -51,6 +55,7 @@ func damage(d):
 	health -= d
 	if health <= 0:
 		Global.update_lives(-1)
+		Global.update_score(-100)
 		Effects = get_node_or_null("/root/Game/Effects")
 		if Effects != null:
 			var explosion = Explosion.instance()
